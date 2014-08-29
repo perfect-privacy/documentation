@@ -24,7 +24,5 @@
 - [Config Versions](members/config-versions.md) - current version of the config
 - [Server Groups](members/server-groups.md) - detailed server information
 
-<!--
 ### User Account
 - [User Settings](members/user-settings.md) - get and set user account settings (expiration date, port forwarding, ...)
--->
