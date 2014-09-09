@@ -101,7 +101,8 @@ The default port forwarding ports are based on the internal VPN IP address and c
 
 ```
 10.22.16.9
-       |  \
+  last |  \ entire
+ digit |  | part
        |  |
      1 6009
          ^ zero-fill
@@ -111,21 +112,31 @@ The default port forwarding ports are based on the internal VPN IP address and c
 ```
 
 ### Step 1: Take the last digit of the third part of the IP address:
-10.22.1**6**.9 => 6
+```
+10.22.16.9
+       ^ => 6
+```
 
 ### Step 2: Take the last part of the IP address and zero-fill it to 3 digits:
-
-10.22.16.**9** => 009
+```
+10.22.16.9
+         ^ => 009
+```
 
 ### Step 3: Concatenate it and add a leading 1, 2 or 3:
-**1**6009, **2**6009, **3**6009
+```
+16009
+26009
+36009
+```
+Voilà!
 
 ### Examples:
-IP address     | Default Ports
--------------- | --------------------
-10.23.6.112    | 16112, 26112, 36112
-10.2.23.42     | 13042, 23042, 33042
-10.23.123.125  | 13125, 23125, 33125
+IP address      | Default Ports
+--------------- | ---------------
+10.23.6.112     | 16112, 26112, 36112
+10.2.23.42      | 13042, 23042, 33042
+10.23.123.125   | 13125, 23125, 33125
 
 
 <a name="polling">
