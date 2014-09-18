@@ -1,7 +1,7 @@
 # Perfect Privacy API: User Settings
-> Document version: **1.1**
+> Document version: **1.2**
 
-This API is intended for getting user account information such as expiration date and setting user related settings like port forwarding and random exit IP address.
+This API is intended for getting user account information such as expiration date and setting user related settings like port forwarding and whether to use a random exit IP address.
 
 ## TOC
 
@@ -33,7 +33,7 @@ datetime  | (string) Date/Time in 24h format (UTC): "YYYY-mm-dd HH:MM:SS" (%Y-%m
 
 
 <a name="request">
-## 3. Request GET Parameters
+## 3. Request POST Parameters
 Parameter               | Data Type  |  Notice                                                                                                                                                                                                                                                                                                                  | Example
 ----------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------
 username                | string     | (required)<br><br>**Errors:**<br>errorUsernamePassword, errorInvalidchars, errorExpired, errorDisabled, errorApiCallLimit                                                                                                                                                                                                |
@@ -53,7 +53,9 @@ deletePortForwarding[]  | n-list     | delete port forwarding by id, multiple po
 This JSON object is the standard response if no error occurs.
 
 username and password only:
-https://www.perfect-privacy.com/api/user.php?username=user123&password=secret
+```
+wget -q --post-data "username=USERNAME&password=PASSWORD" -O - "https://www.perfect-privacy.com/api/user.php"
+```
 
 Key                     | Data Type                   | Notice
 ----------------------- | --------------------------- | -----------------------------------------------------------------------------
@@ -147,7 +149,9 @@ You only need to get this once. Update again when the window becomes visible or 
 <a name="ex">
 ## 7. Examples
 ### 7.1 Example 1: General Information
-https://www.perfect-privacy.com/api/user.php?username=user123&password=secret
+```
+wget -q --post-data "username=USERNAME&password=PASSWORD" -O - "https://www.perfect-privacy.com/api/user.php"
+```
 ```json
 {
     "validUntil": "2100-01-01 00:00:00",
@@ -168,7 +172,9 @@ https://www.perfect-privacy.com/api/user.php?username=user123&password=secret
 ```
 
 ### 7.2 Example 2: Error (invalid characters in username)
-https://www.perfect-privacy.com/api/user.php?username=user%123&password=secret
+```
+wget -q --post-data "username=USERNAME%123&password=PASSWORD" -O - "https://www.perfect-privacy.com/api/user.php"
+```
 ```json
 {
   "error":"errorInvalidchars"
@@ -176,7 +182,9 @@ https://www.perfect-privacy.com/api/user.php?username=user%123&password=secret
 ```
 
 ### 7.3 Example 3: Get Server Groups
-https://www.perfect-privacy.com/api/user.php?username=user123&password=secret&getServerGroups
+```
+wget -q --post-data "username=USERNAME&password=PASSWORD&getServerGroups=" -O - "https://www.perfect-privacy.com/api/user.php"
+```
 ```json
 {
     ... see Example 1 ...
@@ -190,6 +198,29 @@ https://www.perfect-privacy.com/api/user.php?username=user123&password=secret&ge
             "name": "Brisbane"
         },
         ... more server groups ...
+    ]
+}
+```
+
+### 7.4 Example 4: Set Default Port Forwarding
+```
+wget -q --post-data "username=USERNAME&password=PASSWORD&defaultPortForwarding=0" -O - "https://www.perfect-privacy.com/api/user.php"
+```
+```json
+{
+    "validUntil": "2100-01-01 00:00:00",
+    "randomExit": "1",
+    "defaultPortForwarding": "0",
+    "autorenew_pf": "0",
+    "customPorts": [
+        {
+            "id": "1000",
+            "serverGroupId": "42",
+            "srcPort": "1234",
+            "destPort": "1234",
+            "validUntil": "2100-01-01 00:00:00"
+        },
+        ... more port forwardings ...
     ]
 }
 ```
