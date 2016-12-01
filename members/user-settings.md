@@ -101,35 +101,24 @@ If you enable default port forwarding, 3 port forwardings will be set up automat
 
 The default port forwarding ports are based on the internal VPN IP address and can be calculated like so:
 
+### Step 1: Shift the last 4 bits of the third octet one byte to the left and `or` it with the last octet:
 ```
-10.22.16.9
-  last |  \ entire
- digit |  | part
-       |  |
-     1 6009
-         ^ zero-fill
-     2 6009
-     3 6009
-     ^ add 1, 2, 3
+10.0.66.39
+ ((66 & 0x0f) << 8) | 39
+   = 551
 ```
 
-### Step 1: Take the last digit of the third part of the IP address:
+### Step 2: Zero-fill the result to 4 digits:
 ```
-10.22.16.9
-       ^ => 6
-```
-
-### Step 2: Take the last part of the IP address and zero-fill it to 3 digits:
-```
-10.22.16.9
-         ^ => 009
+551
+   => 0551
 ```
 
-### Step 3: Concatenate it and add a leading 1, 2 or 3:
+### Step 3: Concatenate it to a leading 1, 2 or 3:
 ```
-16009
-26009
-36009
+10551
+20551
+30551
 ```
 Voilà!
 
